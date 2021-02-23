@@ -13,13 +13,15 @@ let board = document.getElementById('chessboard')
 board.addEventListener('click', handleClick)
 
 function handleClick(e) {
-    console.log(e.target, "was clicked!")
     let selectedDiv = e.target
+    console.log(e.target, "was clicked!")
+
     if (phase == 0 || selectedDiv == currentPiece) {
         toggleSelected(selectedDiv)
         console.log(phase)
     } else {
         selectedDiv.innerText = copy
+        selectedDiv.style.color = 'black'
         currentPiece.innerText = ""
         phase = 0
         console.log(phase)
@@ -27,7 +29,7 @@ function handleClick(e) {
 }
 
 function toggleSelected(selectedDiv) {
-    if (selectedDiv == currentPiece) {
+    if (selectedDiv == currentPiece || selectedDiv.innerText == "") {
         selectedDiv.style.color = "black"
         currentPiece = null
         phase = 0
