@@ -9,6 +9,7 @@ let phase = 0 // zero is selected, 1 is moving
 //// LOOK INTO BUBBLING ///// 
 
 let board = document.getElementById('chessboard')
+const gameBoard = board.innerHTML
 
 board.addEventListener('click', handleClick)
 
@@ -39,4 +40,17 @@ function toggleSelected(selectedDiv) {
         selectedDiv.style.color = "blue"
         phase = 1
     }
+}
+
+let pieces = []
+class Piece {
+    constructor(name, unicode) {
+        this.name = name
+        this.unicode = unicode
+        pieces.push(this)
+    }
+}
+
+function resetBoard() {
+    board.innerHTML = gameBoard
 }
