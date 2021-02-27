@@ -6,11 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
 let currentPiece;
 let copy;
 let phase = 0 // zero is selected, 1 is moving
+let start = document.getElementById('start-btn')
+let board = document.getElementById('chessboard')
+const gameBoard = board.innerHTML
 
 //// LOOK INTO BUBBLING ///// 
 
-let board = document.getElementById('chessboard')
-const gameBoard = board.innerHTML
 
 board.addEventListener('click', handleClick)
 
@@ -121,4 +122,8 @@ function deleteUser() {
     })
 
     this.location.reload()
+}
+
+function startGame() {
+
 }
