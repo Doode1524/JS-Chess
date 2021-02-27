@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="src/message.js"></script>
+    <script src="src/user.js"></script>
+
+</head>
+
+<body>
+    <div id="signup" class="form-container">
+        <h1 class="header">Sign Up</h1>
+        <hr>
+
+        <div id="email" class="form-group" data-step="1">
+            <label for="email-input">Enter Your Email</label>
+            <input type="text" id="email-input" class="form-control">
+        </div>
+
+        <div id="email-verification" class="form-group" data-step="2">
+            <label for="email-verification-input">Confirm Your Email</label>
+            <input type="text" id="email-verification" class="form-control">
+        </div>
+
+        <div id="password" class="form-group" data-step="3">
+            <p class="password-requirements">
+                Password required.
+            </p>
+            <label for="password-input">Create A Password</label>
+            <input type="password" id="password-input" class="form-control">
+        </div>
+
+        <div id="password-verification" class="form-group final" data-step="4">
+            <label for="password-verification-input">Confirm Your Password</label>
+            <input type="password" id="password-verification-input" class="form-control">
+        </div>
+
+        <p id="error-message"></p>
+        <button id="next-button" class="btn">Next</button>
+
+        <div id="back-button">&#8592;</div>
+
+        <div class="info-section">
+            <p>Already have an accounnt?</p>
+            <a href="login.html">Log In!</a>
+        </div>
+
+
+
+    </div>
+    <script src="form.js"></script>
+</body>
+
+</html>
