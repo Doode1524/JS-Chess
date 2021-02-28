@@ -5,15 +5,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 let currentPiece;
 let copy;
+let wp;
+let bp;
+let player = 0
 let phase = 0 // zero is selected, 1 is moving
 let start = document.getElementById('start-btn')
+let newGameDiv = document.getElementById('new-game')
 let board = document.getElementById('chessboard')
 const gameBoard = board.innerHTML
+const blackPlayer = new User()
+const whitePlayer = new User()
 
 //// LOOK INTO BUBBLING ///// 
 
 
 board.addEventListener('click', handleClick)
+start.addEventListener('click', startGame)
+
+
 
 function handleClick(e) {
     let selectedDiv = e.target
@@ -125,5 +134,40 @@ function deleteUser() {
 }
 
 function startGame() {
+    console.log("start button clicked!")
+    newGameDiv.innerText = "Please Select White Player"
+    let wpArray = document.querySelectorAll('#select-btn')
+    wpArray.forEach((w) => w.addEventListener('click', selectUser))
+    wp = whitePlayer
+}
+
+// DO SOMETHING FOR BP
+
+function whiteUser() {
 
 }
+
+function selectUser(e) {
+    e.preventDefault()
+    console.log(e)
+
+    let id = e.target.dataset.id
+    fetch(BASE_URL + /users/ + id, {
+
+        })
+        .then(function(resp) {
+            return resp.json();
+        })
+        .then(function(resp) {
+            console.log(resp)
+            whitePlayer.resp = resp
+            whitePlayer.color = "White"
+            whitePlayer.first_name = resp.first_name
+            whitePlayer.last_name = resp.last_name
+            whitePlayer.id = resp.id
+        })
+    newGameDiv.innerText = "Please Select Black Player"
+
+}
+
+//////////////////////////////////////////////////////////
