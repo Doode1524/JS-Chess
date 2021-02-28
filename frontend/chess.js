@@ -7,7 +7,7 @@ let currentPiece;
 let copy;
 let wp;
 let bp;
-let player = 0
+let player = 0 //zero is white 1 is black
 let phase = 0 // zero is selected, 1 is moving
 let start = document.getElementById('start-btn')
 let newGameDiv = document.getElementById('new-game')
@@ -18,11 +18,8 @@ const whitePlayer = new User()
 
 //// LOOK INTO BUBBLING ///// 
 
-
 board.addEventListener('click', handleClick)
 start.addEventListener('click', startGame)
-
-
 
 function handleClick(e) {
     let selectedDiv = e.target
@@ -93,8 +90,6 @@ function createUser() {
     newUserForm.addEventListener("submit", userSubmit)
 }
 
-
-
 function userSubmit() {
     event.preventDefault()
     let first_name = document.getElementById("first_name").value
@@ -119,7 +114,6 @@ function userSubmit() {
             let u = new User(user.id, user.first_name, user.last_name)
             u.renderUser()
         })
-
 }
 
 function deleteUser() {
@@ -132,42 +126,65 @@ function deleteUser() {
 
     this.location.reload()
 }
-
+/////////////////////////////////
 function startGame() {
     console.log("start button clicked!")
     newGameDiv.innerText = "Please Select White Player"
     let wpArray = document.querySelectorAll('#select-btn')
     wpArray.forEach((w) => w.addEventListener('click', selectUser))
-    wp = whitePlayer
-}
-
-// DO SOMETHING FOR BP
-
-function whiteUser() {
-
 }
 
 function selectUser(e) {
     e.preventDefault()
     console.log(e)
 
-    let id = e.target.dataset.id
-    fetch(BASE_URL + /users/ + id, {
+    if (wp) {
+        let id = e.target.dataset.id
+        fetch(BASE_URL + /users/ + id, {
 
-        })
-        .then(function(resp) {
-            return resp.json();
-        })
-        .then(function(resp) {
-            console.log(resp)
-            whitePlayer.resp = resp
-            whitePlayer.color = "White"
-            whitePlayer.first_name = resp.first_name
-            whitePlayer.last_name = resp.last_name
-            whitePlayer.id = resp.id
-        })
-    newGameDiv.innerText = "Please Select Black Player"
+            })
+            .then(function(resp) {
+                return resp.json();
+            })
+            .then(function(resp) {
+                console.log(resp)
+                blackPlayer.resp = resp
+                blackPlayer.color = "Black"
+                blackPlayer.first_name = resp.first_name
+                blackPlayer.last_name = resp.last_name
+                blackPlayer.id = resp.id
+            })
+            .then(() => {
+                bp = blackPlayer
+            })
+            .then(() => {
+                vsText()
+            })
+    } else {
+        wp = whitePlayer
+        let id = e.target.dataset.id
+        fetch(BASE_URL + /users/ + id, {
 
+            })
+            .then(function(resp) {
+                return resp.json();
+            })
+            .then(function(resp) {
+                console.log(resp)
+                whitePlayer.resp = resp
+                whitePlayer.color = "White"
+                whitePlayer.first_name = resp.first_name
+                whitePlayer.last_name = resp.last_name
+                whitePlayer.id = resp.id
+            })
+        newGameDiv.innerText = "Please Select Black Player"
+    }
+
+    function vsText() {
+
+        if (wp && bp) {
+            newGameDiv.innerText = ""
+            newGameDiv.innerHTML += `White player: ${wp.first_name} ${wp.last_name} <br/> Black player: ${bp.first_name} ${bp.last_name}`
+        }
+    }
 }
-
-//////////////////////////////////////////////////////////
