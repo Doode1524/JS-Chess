@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchUsers()
 })
 
+const BASE_URL = "http://127.0.0.1:3000"
 let currentPiece;
 let copy;
 let wp;
@@ -63,7 +64,6 @@ function resetBoard() {
     board.innerHTML = gameBoard
 }
 
-const BASE_URL = "http://127.0.0.1:3000"
 
 function fetchUsers() {
     fetch(`${BASE_URL}/users`)
@@ -160,6 +160,7 @@ function selectUser(e) {
             .then(() => {
                 vsText()
             })
+
     } else {
         wp = whitePlayer
         let id = e.target.dataset.id
@@ -184,7 +185,46 @@ function selectUser(e) {
 
         if (wp && bp) {
             newGameDiv.innerText = ""
-            newGameDiv.innerHTML += `White player: ${wp.first_name} ${wp.last_name} <br/> Black player: ${bp.first_name} ${bp.last_name}`
+            newGameDiv.innerHTML += `
+            White player: ${wp.first_name} ${wp.last_name} <br/> 
+            Black player: ${bp.first_name} ${bp.last_name} <br/> 
+            <form>
+                Game Name: <input type="text" id= "game_name"><br>
+                <input type="submit" value="Create New Game">
+            </form>`
+
+            newGameDiv.addEventListener("submit", newGameSubmit)
+                // resetBoard() // DONT FORGET TO ADD THIS 
         }
+    }
+
+    function newGameSubmit() {
+        event.preventDefault()
+        let name = document.getElementById('game_name').value
+
+        let game = {
+            name: name
+        }
+
+        fetch(`${BASE_URL}/games`, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(game)
+            })
+            .then(resp => resp.json())
+            .then(user => {
+                let g = new Game(game.name)
+            })
+        newGameDiv.innerText = ""
+        newGameDiv.innerHTML += `
+            White player: ${wp.first_name} ${wp.last_name} <br/> 
+            Black player: ${bp.first_name} ${bp.last_name} <br/> 
+            ${game.name} has started!`
+        resetBoard()
+
     }
 }
