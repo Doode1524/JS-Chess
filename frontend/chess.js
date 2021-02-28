@@ -201,9 +201,13 @@ function selectUser(e) {
     function newGameSubmit() {
         event.preventDefault()
         let name = document.getElementById('game_name').value
+        let white_player = whitePlayer.first_name + " " + whitePlayer.last_name
+        let black_player = blackPlayer.first_name + " " + blackPlayer.last_name
 
         let game = {
-            name: name
+            name: name,
+            white_player: white_player,
+            black_player: black_player
         }
 
         fetch(`${BASE_URL}/games`, {
@@ -216,8 +220,8 @@ function selectUser(e) {
                 body: JSON.stringify(game)
             })
             .then(resp => resp.json())
-            .then(user => {
-                let g = new Game(game.name)
+            .then(game => {
+                let g = new Game(game.name, game.white_player, game.black_player)
             })
         newGameDiv.innerText = ""
         newGameDiv.innerHTML += `

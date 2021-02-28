@@ -1,9 +1,10 @@
 class Game {
-    constructor(id, winner, loser, name) {
+    constructor(id, winner, name, white_player, black_player) {
         this.id = id
         this.name = name
         this.winner = winner
-        this.loser = loser
+        this.white_player = white_player
+        this.black_player = black_player
 
     }
 
