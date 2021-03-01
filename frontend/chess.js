@@ -113,6 +113,8 @@ function userSubmit() {
         .then(user => {
             let u = new User(user.id, user.first_name, user.last_name)
             u.renderUser()
+            let first_name = document.getElementById("first_name").value = ""
+            let last_name = document.getElementById("last_name").value = ""
         })
 }
 
@@ -201,13 +203,13 @@ function selectUser(e) {
     function newGameSubmit() {
         event.preventDefault()
         let name = document.getElementById('game_name').value
-        let white_player = whitePlayer.first_name + " " + whitePlayer.last_name
-        let black_player = blackPlayer.first_name + " " + blackPlayer.last_name
+            // let white_player = whitePlayer.first_name + " " + whitePlayer.last_name
+            // let black_player = blackPlayer.first_name + " " + blackPlayer.last_name
 
         let game = {
             name: name,
-            white_player: white_player,
-            black_player: black_player
+            white_player_id: whitePlayer.id,
+            black_player_id: blackPlayer.id
         }
 
         fetch(`${BASE_URL}/games`, {
