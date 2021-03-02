@@ -241,13 +241,13 @@ function selectUser(e) {
         checkmateBlack.addEventListener('click', handleCheckmate)
     }
 
-
+    h2t = document.createElement('h2')
 
     function handleCheck(e) {
         e.preventDefault()
         console.log(e.target)
-        if (h2) {
-            h2.innerText = ""
+        if (h2t) {
+            h2t.innerText = ""
         }
         let id = e.target.dataset.id
         fetch(BASE_URL + /users/ + id, {
@@ -258,17 +258,16 @@ function selectUser(e) {
             })
             .then(function(resp) {
                 console.log(resp)
-                h2 = document.createElement('h2')
-                h2.innerText = `${resp.first_name} ${resp.last_name} is in check!`
-                newGameDiv.append(h2)
+                h2t.innerText = `${resp.first_name} ${resp.last_name} is in check!`
+                newGameDiv.append(h2t)
             })
     }
 
     function handleCheckmate(e) {
         e.preventDefault()
         console.log(e.target)
-        if (h2) {
-            h2.innerText = ""
+        if (h2t) {
+            h2t.innerText = ""
         }
         let id = e.target.dataset.id
         fetch(BASE_URL + /users/ + id, {
@@ -280,14 +279,12 @@ function selectUser(e) {
             .then(function(resp) {
                 console.log(resp)
                 if (id == whitePlayer.id) {
-                    h2 = document.createElement('h2')
-                    h2.innerText = `${blackPlayer.first_name} ${blackPlayer.last_name} is WINNER!`
-                    newGameDiv.append(h2)
+                    h2t.innerText = `${blackPlayer.first_name} ${blackPlayer.last_name} is WINNER!`
+                    newGameDiv.append(h2t)
                     currentGame.winner = currentGame.black_player.first_name + " " + currentGame.black_player.last_name
                 } else {
-                    h2 = document.createElement('h2')
-                    h2.innerText = `${whitePlayer.first_name} ${whitePlayer.last_name} is WINNER!`
-                    newGameDiv.append(h2)
+                    h2t.innerText = `${whitePlayer.first_name} ${whitePlayer.last_name} is WINNER!`
+                    newGameDiv.append(h2t)
                     currentGame.winner = currentGame.white_player.first_name + " " + currentGame.white_player.last_name
                 }
             })
