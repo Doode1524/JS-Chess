@@ -13,9 +13,13 @@ let phase = 0 // zero is selected, 1 is moving
 let start = document.getElementById('start-btn')
 let newGameDiv = document.getElementById('new-game')
 let board = document.getElementById('chessboard')
+let check = document.getElementById('check-btn')
+let checkmate = document.getElementById('checkmate-btn')
 const gameBoard = board.innerHTML
 const blackPlayer = new User()
 const whitePlayer = new User()
+let currentGame;
+
 
 //// LOOK INTO BUBBLING ///// 
 
@@ -63,7 +67,6 @@ class Piece {
 function resetBoard() {
     board.innerHTML = gameBoard
 }
-
 
 function fetchUsers() {
     fetch(`${BASE_URL}/users`)
@@ -203,8 +206,6 @@ function selectUser(e) {
     function newGameSubmit() {
         event.preventDefault()
         let name = document.getElementById('game_name').value
-            // let white_player = whitePlayer.first_name + " " + whitePlayer.last_name
-            // let black_player = blackPlayer.first_name + " " + blackPlayer.last_name
 
         let game = {
             name: name,
@@ -223,14 +224,14 @@ function selectUser(e) {
             })
             .then(resp => resp.json())
             .then(game => {
-                let g = new Game(game.name, game.white_player, game.black_player)
+                let g = new Game(game.id, game.winner, game.name, game.white_player, game.black_player)
+                currentGame = g
             })
         newGameDiv.innerText = ""
         newGameDiv.innerHTML += `
-            White player: ${wp.first_name} ${wp.last_name} <br/> 
-            Black player: ${bp.first_name} ${bp.last_name} <br/> 
+            White player: ${wp.first_name} ${wp.last_name} &nbsp <button id="check-btn">Check</button><button id="checkmate-btn">Checkmate</button><br/> 
+            Black player: ${bp.first_name} ${bp.last_name} &nbsp <button id="check-btn">Check</button><button id="checkmate-btn">Checkmate</button><br/> 
             ${game.name} has started!`
         resetBoard()
-
     }
 }
