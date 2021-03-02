@@ -13,8 +13,6 @@ let phase = 0 // zero is selected, 1 is moving
 let start = document.getElementById('start-btn')
 let newGameDiv = document.getElementById('new-game')
 let board = document.getElementById('chessboard')
-let check = document.getElementById('check-btn')
-let checkmate = document.getElementById('checkmate-btn')
 const gameBoard = board.innerHTML
 const blackPlayer = new User()
 const whitePlayer = new User()
@@ -85,9 +83,9 @@ function createUser() {
     newUserForm.innerHTML +=
         `
     <form>
-        First Name: <input type="text" id= "first_name"><br>
-        Last Name: <input type="text" id= "last_name"><br>
-        <input type="submit" value="Create User">
+    First Name: <input type="text" id= "first_name"><br>
+    Last Name: <input type="text" id= "last_name"><br>
+    <input type="submit" value="Create User">
     </form>
     `
     newUserForm.addEventListener("submit", userSubmit)
@@ -194,8 +192,8 @@ function selectUser(e) {
             White player: ${wp.first_name} ${wp.last_name} <br/> 
             Black player: ${bp.first_name} ${bp.last_name} <br/> 
             <form>
-                Game Name: <input type="text" id= "game_name"><br>
-                <input type="submit" value="Create New Game">
+            Game Name: <input type="text" id= "game_name"><br>
+            <input type="submit" value="Create New Game">
             </form>`
 
             newGameDiv.addEventListener("submit", newGameSubmit)
@@ -229,9 +227,70 @@ function selectUser(e) {
             })
         newGameDiv.innerText = ""
         newGameDiv.innerHTML += `
-            White player: ${wp.first_name} ${wp.last_name} &nbsp <button id="check-btn">Check</button><button id="checkmate-btn">Checkmate</button><br/> 
-            Black player: ${bp.first_name} ${bp.last_name} &nbsp <button id="check-btn">Check</button><button id="checkmate-btn">Checkmate</button><br/> 
-            ${game.name} has started!`
+        White player: ${wp.first_name} ${wp.last_name} &nbsp <button id="white-check-btn" data-id=${whitePlayer.id}>Check</button><button id="white-checkmate-btn" data-id=${whitePlayer.id}>Checkmate</button><br/> 
+        Black player: ${bp.first_name} ${bp.last_name} &nbsp <button id="black-check-btn" data-id=${blackPlayer.id}>Check</button><button id="black-checkmate-btn" data-id=${blackPlayer.id}>Checkmate</button><br/> 
+        ${game.name} has started!`
         resetBoard()
+        let checkWhite = document.getElementById('white-check-btn')
+        let checkmateWhite = document.getElementById('white-checkmate-btn')
+        checkWhite.addEventListener('click', handleCheck)
+        checkmateWhite.addEventListener('click', handleCheckmate)
+        let checkBlack = document.getElementById('black-check-btn')
+        let checkmateBlack = document.getElementById('black-checkmate-btn')
+        checkBlack.addEventListener('click', handleCheck)
+        checkmateBlack.addEventListener('click', handleCheckmate)
+    }
+
+
+
+    function handleCheck(e) {
+        e.preventDefault()
+        console.log(e.target)
+        if (h2) {
+            h2.innerText = ""
+        }
+        let id = e.target.dataset.id
+        fetch(BASE_URL + /users/ + id, {
+
+            })
+            .then(function(resp) {
+                return resp.json();
+            })
+            .then(function(resp) {
+                console.log(resp)
+                h2 = document.createElement('h2')
+                h2.innerText = `${resp.first_name} ${resp.last_name} is in check!`
+                newGameDiv.append(h2)
+            })
+    }
+
+    function handleCheckmate(e) {
+        e.preventDefault()
+        console.log(e.target)
+        if (h2) {
+            h2.innerText = ""
+        }
+        let id = e.target.dataset.id
+        fetch(BASE_URL + /users/ + id, {
+
+            })
+            .then(function(resp) {
+                return resp.json();
+            })
+            .then(function(resp) {
+                console.log(resp)
+                if (id == whitePlayer.id) {
+                    h2 = document.createElement('h2')
+                    h2.innerText = `${blackPlayer.first_name} ${blackPlayer.last_name} is WINNER!`
+                    newGameDiv.append(h2)
+                    currentGame.winner = currentGame.black_player.first_name + " " + currentGame.black_player.last_name
+                } else {
+                    h2 = document.createElement('h2')
+                    h2.innerText = `${whitePlayer.first_name} ${whitePlayer.last_name} is WINNER!`
+                    newGameDiv.append(h2)
+                    currentGame.winner = currentGame.white_player.first_name + " " + currentGame.white_player.last_name
+                }
+            })
+
     }
 }
