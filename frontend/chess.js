@@ -270,6 +270,7 @@ function selectUser(e) {
             h2t.innerText = ""
         }
         let id = e.target.dataset.id
+
         fetch(BASE_URL + /users/ + id, {
 
             })
@@ -279,14 +280,32 @@ function selectUser(e) {
             .then(function(resp) {
                 console.log(resp)
                 if (id == whitePlayer.id) {
-                    h2t.innerText = `${blackPlayer.first_name} ${blackPlayer.last_name} is WINNER!`
+                    h2t.innerText = `${blackPlayer.first_name} ${blackPlayer.last_name} is the WINNER!`
                     newGameDiv.append(h2t)
                     currentGame.winner = currentGame.black_player.first_name + " " + currentGame.black_player.last_name
                 } else {
-                    h2t.innerText = `${whitePlayer.first_name} ${whitePlayer.last_name} is WINNER!`
+                    h2t.innerText = `${whitePlayer.first_name} ${whitePlayer.last_name} is the WINNER!`
                     newGameDiv.append(h2t)
                     currentGame.winner = currentGame.white_player.first_name + " " + currentGame.white_player.last_name
                 }
+                let cgid = currentGame.id
+                let game = {
+                    winner: currentGame.winner
+                }
+
+                fetch(BASE_URL + "/games/" + cgid, {
+                    method: "PATCH",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(game)
+                })
+
+                .then(resp => resp.json())
+                    .then(game => {
+                        return game.winner = currentGame.winner
+                    })
+
             })
 
     }
