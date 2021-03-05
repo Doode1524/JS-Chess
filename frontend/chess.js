@@ -135,6 +135,8 @@ function deleteUser() {
 }
 /////////////////////////////////
 function startGame() {
+    wp = null
+    bp = null
     console.log("start button clicked!")
     newGameDiv.innerText = "Please Select White Player"
     let wpArray = document.querySelectorAll('#select-btn')
@@ -144,7 +146,6 @@ function startGame() {
 function selectUser(e) {
     e.preventDefault()
     console.log(e)
-
     if (wp) {
         let id = e.target.dataset.id
         fetch(BASE_URL + /users/ + id, {
@@ -154,7 +155,7 @@ function selectUser(e) {
                 return resp.json();
             })
             .then(function(resp) {
-                console.log(resp)
+                console.log("hi", resp)
                 blackPlayer.resp = resp
                 blackPlayer.color = "Black"
                 blackPlayer.first_name = resp.first_name
