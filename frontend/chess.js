@@ -122,12 +122,16 @@ function userSubmit() {
 function deleteUser() {
 
     let userId = parseInt(event.target.dataset.id)
+    let allUsers = document.getElementById("all_users")
 
     fetch(`${BASE_URL}/users/${userId}`, {
-        method: 'DELETE'
-    })
-
-    this.location.reload()
+            method: 'DELETE'
+        })
+        .then(function(resp) {
+            allUsers.innerText = ""
+            fetchUsers()
+        })
+        // this.location.reload()
 }
 /////////////////////////////////
 function startGame() {
