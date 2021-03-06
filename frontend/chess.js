@@ -232,9 +232,9 @@ function selectUser(e) {
             })
         newGameDiv.innerText = ""
         newGameDiv.innerHTML += `
-        White player: ${wp.first_name} ${wp.last_name} &nbsp <button id="white-check-btn" data-id=${whitePlayer.id}>Check</button><button id="white-checkmate-btn" data-id=${whitePlayer.id}>Checkmate</button><br/> 
-        Black player: ${bp.first_name} ${bp.last_name} &nbsp <button id="black-check-btn" data-id=${blackPlayer.id}>Check</button><button id="black-checkmate-btn" data-id=${blackPlayer.id}>Checkmate</button><br/> 
-        ${game.name} has started!`
+        White player: ${wp.first_name} ${wp.last_name} <br/> <button id="white-check-btn" data-id=${whitePlayer.id}>Check</button><button id="white-checkmate-btn" data-id=${whitePlayer.id}>Checkmate</button><br/><br/> 
+        Black player: ${bp.first_name} ${bp.last_name} <br/> <button id="black-check-btn" data-id=${blackPlayer.id}>Check</button><button id="black-checkmate-btn" data-id=${blackPlayer.id}>Checkmate</button><br/> 
+        <h3>${game.name} has started!<h3>`
         resetBoard()
         let checkWhite = document.getElementById('white-check-btn')
         let checkmateWhite = document.getElementById('white-checkmate-btn')

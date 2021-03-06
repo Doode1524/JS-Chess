@@ -33,6 +33,14 @@
             display: table-cell;
             vertical-align: middle;
         }
+        
+        .users-style {
+            background-color: lightgrey;
+            width: 300px;
+            border: 25px solid #333;
+            padding: 50px;
+            margin: 20px;
+        }
     </style>
 
     <script src="src/game.js"></script>
@@ -41,8 +49,8 @@
 </head>
 
 <body>
-    <div style="position:absolute; left:800px; top:20px;">
-        <h2>Create User</h2>
+    <div style="position:absolute; left:720px; top:25px;" class="users-style">
+        <h2 style="margin-top: 0px;">Create User</h2>
         <div id="create_user">
 
         </div>
@@ -54,8 +62,8 @@
         </div>
     </div>
 
-    <div style="position:absolute; left:1200px; top:20px;">
-        <h2>New Game &nbsp<button id="start-btn">Start</button></h2>
+    <div style="position:absolute; left:1190px; top:25px; width: 250px;" class="users-style">
+        <h2 style="margin-top: 0px;">New Game &nbsp<button id="start-btn">Start</button></h2>
         <div id="new-game">
 
         </div>
