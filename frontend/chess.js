@@ -214,7 +214,8 @@ function selectUser(e) {
             </form>`
 
             newGameDiv.addEventListener("submit", newGameSubmit)
-                // resetBoard() // DONT FORGET TO ADD THIS 
+
+            // resetBoard() // DONT FORGET TO ADD THIS 
         }
     }
 
@@ -242,6 +243,7 @@ function selectUser(e) {
                 let g = new Game(game.id, game.winner, game.name, game.white_player, game.black_player)
                 currentGame = g
             })
+
         newGameDiv.innerText = ""
         newGameDiv.innerHTML += `
         White player: ${wp.first_name} ${wp.last_name} <br/> <button id="white-check-btn" data-id=${whitePlayer.id}>Check</button><button id="white-checkmate-btn" data-id=${whitePlayer.id}>Checkmate</button><br/><br/> 
