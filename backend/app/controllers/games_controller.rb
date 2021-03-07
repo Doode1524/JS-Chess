@@ -13,6 +13,11 @@ class GamesController < ApplicationController
     render json: @game
   end
 
+  def recent
+    @games = Game.all.last(3)
+    render json: @games, include: [:white_player, :black_player], except: [:created_at, :updated_at]
+  end
+
   # POST /games
   def create
     @game = Game.new(game_params)
