@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     createUser()
     fetchUsers()
+    recentGames()
 })
 
 const BASE_URL = "http://127.0.0.1:3000"
@@ -23,6 +24,17 @@ let currentGame;
 
 board.addEventListener('click', handleClick)
 start.addEventListener('click', startGame)
+
+function recentGames() {
+    fetch(`${BASE_URL}/recent`)
+        .then(resp => resp.json())
+        .then(games => {
+            for (const game of games) {
+                let g = new Game(game.id, game.name, game.winner)
+                g.renderGame()
+            }
+        })
+}
 
 function handleClick(e) {
     let selectedDiv = e.target
@@ -310,8 +322,9 @@ function selectUser(e) {
                     .then(game => {
                         return game.winner = currentGame.winner
                     })
-
             })
 
+
     }
+
 }
