@@ -149,6 +149,9 @@ function deleteUser() {
 function startGame() {
     wp = null
     bp = null
+    let gamesDiv = document.getElementById("recent-games")
+    gamesDiv.innerHTML = ""
+    recentGames()
     console.log("start button clicked!")
     newGameDiv.innerText = "Please Select White Player"
     let wpArray = document.querySelectorAll('#select-btn')
@@ -325,8 +328,6 @@ function selectUser(e) {
                         return game.winner = currentGame.winner
                     })
             })
-
-
     }
 
 }
