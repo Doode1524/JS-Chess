@@ -22,10 +22,8 @@ let currentGame;
 
 //// LOOK INTO BUBBLING ///// 
 
-board.addEventListener('click', handleClick)
-start.addEventListener('click', startGame)
 
-function recentGames() {
+const recentGames = () => {
     fetch(`${BASE_URL}/recent`)
         .then(resp => resp.json())
         .then(games => {
@@ -36,7 +34,7 @@ function recentGames() {
         })
 }
 
-function handleClick(e) {
+const handleClick = (e) => {
     let selectedDiv = e.target
     console.log(e.target, "was clicked!")
 
@@ -52,7 +50,10 @@ function handleClick(e) {
     } // check else if
 }
 
-function toggleSelected(selectedDiv) {
+board.addEventListener('click', handleClick)
+
+
+const toggleSelected = (selectedDiv) => {
     if (selectedDiv == currentPiece || selectedDiv.innerText == "") {
         selectedDiv.style.color = "black"
         currentPiece = null
@@ -74,11 +75,11 @@ class Piece {
     }
 }
 
-function resetBoard() {
+const resetBoard = () => { // value of null at 228??
     board.innerHTML = gameBoard
 }
 
-function fetchUsers() {
+const fetchUsers = () => {
     fetch(`${BASE_URL}/users`)
         .then(resp => resp.json())
         .then(users => {
@@ -89,7 +90,7 @@ function fetchUsers() {
         })
 }
 
-function createUser() {
+const createUser = () => {
     let newUserForm = document.getElementById('create_user')
 
     newUserForm.innerHTML +=
@@ -103,7 +104,7 @@ function createUser() {
     newUserForm.addEventListener("submit", userSubmit)
 }
 
-function userSubmit() {
+const userSubmit = () => {
     event.preventDefault()
     let first_name = document.getElementById("first_name").value
     let last_name = document.getElementById("last_name").value
@@ -131,22 +132,22 @@ function userSubmit() {
         })
 }
 
-function deleteUser() {
+const deleteUser = () => {
 
-    let userId = parseInt(event.target.dataset.id)
-    let allUsers = document.getElementById("all_users")
+        let userId = parseInt(event.target.dataset.id)
+        let allUsers = document.getElementById("all_users")
 
-    fetch(`${BASE_URL}/users/${userId}`, {
-            method: 'DELETE'
-        })
-        .then(function(resp) {
-            allUsers.innerText = ""
-            fetchUsers()
-        })
-        // this.location.reload()
-}
-/////////////////////////////////
-function startGame() {
+        fetch(`${BASE_URL}/users/${userId}`, {
+                method: 'DELETE'
+            })
+            .then(function(resp) {
+                allUsers.innerText = ""
+                fetchUsers()
+            })
+            // this.location.reload()
+    }
+    /////////////////////////////////
+const startGame = () => {
     wp = null
     bp = null
     let gamesDiv = document.getElementById("recent-games")
@@ -158,7 +159,9 @@ function startGame() {
     wpArray.forEach((w) => w.addEventListener('click', selectUser))
 }
 
-function selectUser(e) {
+start.addEventListener('click', startGame)
+
+const selectUser = (e) => {
     e.preventDefault()
     console.log(e)
     if (wp) {
@@ -204,7 +207,7 @@ function selectUser(e) {
         newGameDiv.innerText = "Please Select Black Player"
     }
 
-    function vsText() {
+    const vsText = () => {
 
         if (wp && bp) {
             newGameDiv.innerText = ""
@@ -222,7 +225,7 @@ function selectUser(e) {
         }
     }
 
-    function newGameSubmit() {
+    const newGameSubmit = () => {
         event.preventDefault()
         let name = document.getElementById('game_name').value
 
@@ -265,7 +268,7 @@ function selectUser(e) {
 
     h2t = document.createElement('h2')
 
-    function handleCheck(e) {
+    const handleCheck = (e) => {
         e.preventDefault()
         console.log(e.target)
         if (h2t) {
@@ -285,7 +288,7 @@ function selectUser(e) {
             })
     }
 
-    function handleCheckmate(e) {
+    const handleCheckmate = (e) => {
         e.preventDefault()
         console.log(e.target)
         if (h2t) {
