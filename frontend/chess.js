@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    createUser()
-    fetchUsers()
-    recentGames()
+    User.createUser()
+    User.fetchUsers()
+    Game.recentGames()
 })
 
 const BASE_URL = "http://127.0.0.1:3000"
@@ -19,20 +19,7 @@ const blackPlayer = new User()
 const whitePlayer = new User()
 let currentGame;
 
-
 //// LOOK INTO BUBBLING ///// 
-
-
-const recentGames = () => {
-    fetch(`${BASE_URL}/recent`)
-        .then(resp => resp.json())
-        .then(games => {
-            for (const game of games) {
-                let g = new Game(game.id, game.name, game.winner)
-                g.renderGame()
-            }
-        })
-}
 
 const handleClick = (e) => {
     let selectedDiv = e.target
@@ -50,8 +37,7 @@ const handleClick = (e) => {
     } // check else if
 }
 
-board.addEventListener('click', handleClick)
-
+board.addEventListener('click', handleClick) /// Why cant this come before?
 
 const toggleSelected = (selectedDiv) => {
     if (selectedDiv == currentPiece || selectedDiv.innerText == "") {
@@ -79,87 +65,8 @@ const resetBoard = () => { // value of null at 228??
     board.innerHTML = gameBoard
 }
 
-const fetchUsers = () => {
-    fetch(`${BASE_URL}/users`)
-        .then(resp => resp.json())
-        .then(users => {
-            for (const user of users) {
-                let u = new User(user.id, user.first_name, user.last_name)
-                u.renderUser()
-            }
-        })
-}
 
-const createUser = () => {
-    let newUserForm = document.getElementById('create_user')
-
-    newUserForm.innerHTML +=
-        `
-    <form>
-    First Name: <input type="text" id= "first_name"><br>
-    Last Name: <input type="text" id= "last_name"><br>
-    <input type="submit" value="Create User">
-    </form>
-    `
-    newUserForm.addEventListener("submit", userSubmit)
-}
-
-const userSubmit = () => {
-    event.preventDefault()
-    let first_name = document.getElementById("first_name").value
-    let last_name = document.getElementById("last_name").value
-
-    let user = {
-        first_name: first_name,
-        last_name: last_name
-    }
-
-    fetch(`${BASE_URL}/users`, {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-
-            body: JSON.stringify(user)
-        })
-        .then(resp => resp.json())
-        .then(user => {
-            let u = new User(user.id, user.first_name, user.last_name)
-            u.renderUser()
-            let first_name = document.getElementById("first_name").value = ""
-            let last_name = document.getElementById("last_name").value = ""
-        })
-}
-
-const deleteUser = () => {
-
-        let userId = parseInt(event.target.dataset.id)
-        let allUsers = document.getElementById("all_users")
-
-        fetch(`${BASE_URL}/users/${userId}`, {
-                method: 'DELETE'
-            })
-            .then(function(resp) {
-                allUsers.innerText = ""
-                fetchUsers()
-            })
-            // this.location.reload()
-    }
-    /////////////////////////////////
-const startGame = () => {
-    wp = null
-    bp = null
-    let gamesDiv = document.getElementById("recent-games")
-    gamesDiv.innerHTML = ""
-    recentGames()
-    console.log("start button clicked!")
-    newGameDiv.innerText = "Please Select White Player"
-    let wpArray = document.querySelectorAll('#select-btn')
-    wpArray.forEach((w) => w.addEventListener('click', selectUser))
-}
-
-start.addEventListener('click', startGame)
+start.addEventListener('click', Game.startGame)
 
 const selectUser = (e) => {
     e.preventDefault()
@@ -210,14 +117,14 @@ const selectUser = (e) => {
     const vsText = () => {
 
         if (wp && bp) {
-            newGameDiv.innerText = ""
-            newGameDiv.innerHTML += `
-            White player: ${wp.first_name} ${wp.last_name} <br/> 
-            Black player: ${bp.first_name} ${bp.last_name} <br/> 
-            <form>
-            Game Name: <input type="text" id= "game_name"><br>
-            <input type="submit" value="Create New Game">
-            </form>`
+            // newGameDiv.innerHTML = ""
+            newGameDiv.innerHTML = `
+                White player: ${wp.first_name} ${wp.last_name} <br/> 
+                Black player: ${bp.first_name} ${bp.last_name} <br/> 
+                <form>
+                Game Name: <input type="text" id= "game_name"><br>
+                <input type="submit" value="Create New Game">
+                </form>`
 
             newGameDiv.addEventListener("submit", newGameSubmit)
 
@@ -249,7 +156,7 @@ const selectUser = (e) => {
                 let g = new Game(game.id, game.winner, game.name, game.white_player, game.black_player)
                 currentGame = g
             })
-
+        newGameDiv.removeEventListener("submit", newGameSubmit)
         newGameDiv.innerText = ""
         newGameDiv.innerHTML += `
         White player: ${wp.first_name} ${wp.last_name} <br/> <button id="white-check-btn" data-id=${whitePlayer.id}>Check</button><button id="white-checkmate-btn" data-id=${whitePlayer.id}>Checkmate</button><br/><br/> 
@@ -333,4 +240,94 @@ const selectUser = (e) => {
             })
     }
 
+    // const recentGames = () => {
+    //     fetch(`${BASE_URL}/recent`)
+    //         .then(resp => resp.json())
+    //         .then(games => {
+    //             for (const game of games) {
+    //                 let g = new Game(game.id, game.name, game.winner)
+    //                 g.renderGame()
+    //             }
+    //         })
+    // }
+
+    // const fetchUsers = () => {
+    //     fetch(`${BASE_URL}/users`)
+    //         .then(resp => resp.json())
+    //         .then(users => {
+    //             for (const user of users) {
+    //                 let u = new User(user.id, user.first_name, user.last_name)
+    //                 u.renderUser()
+    //             }
+    //         })
+    // }
+
+    // const createUser = () => {
+    //     let newUserForm = document.getElementById('create_user')
+
+    //     newUserForm.innerHTML +=
+    //         `
+    //     <form>
+    //     First Name: <input type="text" id= "first_name"><br>
+    //     Last Name: <input type="text" id= "last_name"><br>
+    //     <input type="submit" value="Create User">
+    //     </form>
+    //     `
+    //     newUserForm.addEventListener("submit", userSubmit)
+    // }
+
+    // const userSubmit = () => {
+    //     event.preventDefault()
+    //     let first_name = document.getElementById("first_name").value
+    //     let last_name = document.getElementById("last_name").value
+
+    //     let user = {
+    //         first_name: first_name,
+    //         last_name: last_name
+    //     }
+
+    //     fetch(`${BASE_URL}/users`, {
+    //             method: "POST",
+    //             headers: {
+    //                 'Accept': 'application/json',
+    //                 'Content-Type': 'application/json'
+    //             },
+
+    //             body: JSON.stringify(user)
+    //         })
+    //         .then(resp => resp.json())
+    //         .then(user => {
+    //             let u = new User(user.id, user.first_name, user.last_name)
+    //             u.renderUser()
+    //             let first_name = document.getElementById("first_name").value = ""
+    //             let last_name = document.getElementById("last_name").value = ""
+    //         })
+    // }
+
+    // const deleteUser = () => {
+
+    //         let userId = parseInt(event.target.dataset.id)
+    //         let allUsers = document.getElementById("all_users")
+
+    //         fetch(`${BASE_URL}/users/${userId}`, {
+    //                 method: 'DELETE'
+    //             })
+    //             .then(function(resp) {
+    //                 allUsers.innerText = ""
+    //                 User.fetchUsers()
+    //             })
+    //             // this.location.reload()
+    //     }
+    /////////////////////////////////
+    // const startGame = () => {
+    //     wp = null
+    //     bp = null
+    //     let gamesDiv = document.getElementById("recent-games")
+    //     gamesDiv.innerHTML = ""
+    //     Game.recentGames()
+    //     console.log("start button clicked!")
+    //     newGameDiv.innerText = "Please Select White Player"
+    //     let wpArray = document.querySelectorAll('#select-btn')
+    //     wpArray.forEach((w) => w.addEventListener('click', selectUser))
+    // }
 }
