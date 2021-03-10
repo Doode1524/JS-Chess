@@ -14,6 +14,7 @@ class Game {
 
     renderGame() {
         let gamesDiv = document.getElementById("recent-games")
+
         gamesDiv.innerHTML +=
             `
             <li><strong>${this.name}</strong> Winner: <strong>${this.winner}</strong> </li><br/>
@@ -34,11 +35,17 @@ class Game {
     static startGame = () => {
         wp = null
         bp = null
+
         let gamesDiv = document.getElementById("recent-games")
+
         gamesDiv.innerHTML = ""
+
         Game.recentGames()
+
         console.log("start button clicked!")
+
         newGameDiv.innerText = "Please Select White Player"
+
         let wpArray = document.querySelectorAll('#select-btn')
         wpArray.forEach((w) => w.addEventListener('click', selectUser))
     }

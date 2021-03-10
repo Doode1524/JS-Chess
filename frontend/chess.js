@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
     User.createUser()
     User.fetchUsers()
     Game.recentGames()
+    board.addEventListener('click', handleClick)
+    start.addEventListener('click', Game.startGame)
 })
 
 const BASE_URL = "http://127.0.0.1:3000"
@@ -19,8 +21,6 @@ const blackPlayer = new User()
 const whitePlayer = new User()
 let currentGame;
 
-//// LOOK INTO BUBBLING ///// 
-
 const handleClick = (e) => {
     let selectedDiv = e.target
     console.log(e.target, "was clicked!")
@@ -34,16 +34,15 @@ const handleClick = (e) => {
         currentPiece.innerText = ""
         phase = 0
         console.log(phase)
-    } // check else if
+    }
 }
-
-board.addEventListener('click', handleClick) /// Why cant this come before?
 
 const toggleSelected = (selectedDiv) => {
     if (selectedDiv == currentPiece || selectedDiv.innerText == "") {
         selectedDiv.style.color = "black"
         currentPiece = null
         phase = 0
+
     } else {
         currentPiece = selectedDiv
         copy = currentPiece.innerText
@@ -52,27 +51,17 @@ const toggleSelected = (selectedDiv) => {
     }
 }
 
-let pieces = []
-class Piece {
-    constructor(name, unicode) {
-        this.name = name
-        this.unicode = unicode
-        pieces.push(this)
-    }
-}
-
 const resetBoard = () => { // value of null at 228??
     board.innerHTML = gameBoard
 }
-
-
-start.addEventListener('click', Game.startGame)
 
 const selectUser = (e) => {
     e.preventDefault()
     console.log(e)
     if (wp) {
+
         let id = e.target.dataset.id
+
         fetch(BASE_URL + /users/ + id, {
 
             })
@@ -96,7 +85,9 @@ const selectUser = (e) => {
 
     } else {
         wp = whitePlayer
+
         let id = e.target.dataset.id
+
         fetch(BASE_URL + /users/ + id, {
 
             })
@@ -117,23 +108,23 @@ const selectUser = (e) => {
     const vsText = () => {
 
         if (wp && bp) {
-            // newGameDiv.innerHTML = ""
             newGameDiv.innerHTML = `
+
                 White player: ${wp.first_name} ${wp.last_name} <br/> 
-                Black player: ${bp.first_name} ${bp.last_name} <br/> 
+                Black player: ${bp.first_name} ${bp.last_name} <br/>
+
                 <form>
                 Game Name: <input type="text" id= "game_name"><br>
                 <input type="submit" value="Create New Game">
                 </form>`
 
             newGameDiv.addEventListener("submit", newGameSubmit)
-
-            // resetBoard() // DONT FORGET TO ADD THIS 
         }
     }
 
     const newGameSubmit = () => {
         event.preventDefault()
+
         let name = document.getElementById('game_name').value
 
         let game = {
@@ -156,19 +147,25 @@ const selectUser = (e) => {
                 let g = new Game(game.id, game.winner, game.name, game.white_player, game.black_player)
                 currentGame = g
             })
+
         newGameDiv.removeEventListener("submit", newGameSubmit)
+
         newGameDiv.innerText = ""
         newGameDiv.innerHTML += `
+
         White player: ${wp.first_name} ${wp.last_name} <br/> <button id="white-check-btn" data-id=${whitePlayer.id}>Check</button><button id="white-checkmate-btn" data-id=${whitePlayer.id}>Checkmate</button><br/><br/> 
         Black player: ${bp.first_name} ${bp.last_name} <br/> <button id="black-check-btn" data-id=${blackPlayer.id}>Check</button><button id="black-checkmate-btn" data-id=${blackPlayer.id}>Checkmate</button><br/> 
         <h3>${game.name} has started!<h3>`
+
         resetBoard()
+
         let checkWhite = document.getElementById('white-check-btn')
         let checkmateWhite = document.getElementById('white-checkmate-btn')
-        checkWhite.addEventListener('click', handleCheck)
-        checkmateWhite.addEventListener('click', handleCheckmate)
         let checkBlack = document.getElementById('black-check-btn')
         let checkmateBlack = document.getElementById('black-checkmate-btn')
+
+        checkWhite.addEventListener('click', handleCheck)
+        checkmateWhite.addEventListener('click', handleCheckmate)
         checkBlack.addEventListener('click', handleCheck)
         checkmateBlack.addEventListener('click', handleCheckmate)
     }
@@ -178,10 +175,13 @@ const selectUser = (e) => {
     const handleCheck = (e) => {
         e.preventDefault()
         console.log(e.target)
+
         if (h2t) {
             h2t.innerText = ""
         }
+
         let id = e.target.dataset.id
+
         fetch(BASE_URL + /users/ + id, {
 
             })
@@ -198,9 +198,11 @@ const selectUser = (e) => {
     const handleCheckmate = (e) => {
         e.preventDefault()
         console.log(e.target)
+
         if (h2t) {
             h2t.innerText = ""
         }
+
         let id = e.target.dataset.id
 
         fetch(BASE_URL + /users/ + id, {
@@ -211,15 +213,18 @@ const selectUser = (e) => {
             })
             .then(function(resp) {
                 console.log(resp)
+
                 if (id == whitePlayer.id) {
                     h2t.innerText = `${blackPlayer.first_name} ${blackPlayer.last_name} is the WINNER!`
                     newGameDiv.append(h2t)
                     currentGame.winner = currentGame.black_player.first_name + " " + currentGame.black_player.last_name
+
                 } else {
                     h2t.innerText = `${whitePlayer.first_name} ${whitePlayer.last_name} is the WINNER!`
                     newGameDiv.append(h2t)
                     currentGame.winner = currentGame.white_player.first_name + " " + currentGame.white_player.last_name
                 }
+
                 let cgid = currentGame.id
                 let game = {
                     winner: currentGame.winner
@@ -239,95 +244,4 @@ const selectUser = (e) => {
                     })
             })
     }
-
-    // const recentGames = () => {
-    //     fetch(`${BASE_URL}/recent`)
-    //         .then(resp => resp.json())
-    //         .then(games => {
-    //             for (const game of games) {
-    //                 let g = new Game(game.id, game.name, game.winner)
-    //                 g.renderGame()
-    //             }
-    //         })
-    // }
-
-    // const fetchUsers = () => {
-    //     fetch(`${BASE_URL}/users`)
-    //         .then(resp => resp.json())
-    //         .then(users => {
-    //             for (const user of users) {
-    //                 let u = new User(user.id, user.first_name, user.last_name)
-    //                 u.renderUser()
-    //             }
-    //         })
-    // }
-
-    // const createUser = () => {
-    //     let newUserForm = document.getElementById('create_user')
-
-    //     newUserForm.innerHTML +=
-    //         `
-    //     <form>
-    //     First Name: <input type="text" id= "first_name"><br>
-    //     Last Name: <input type="text" id= "last_name"><br>
-    //     <input type="submit" value="Create User">
-    //     </form>
-    //     `
-    //     newUserForm.addEventListener("submit", userSubmit)
-    // }
-
-    // const userSubmit = () => {
-    //     event.preventDefault()
-    //     let first_name = document.getElementById("first_name").value
-    //     let last_name = document.getElementById("last_name").value
-
-    //     let user = {
-    //         first_name: first_name,
-    //         last_name: last_name
-    //     }
-
-    //     fetch(`${BASE_URL}/users`, {
-    //             method: "POST",
-    //             headers: {
-    //                 'Accept': 'application/json',
-    //                 'Content-Type': 'application/json'
-    //             },
-
-    //             body: JSON.stringify(user)
-    //         })
-    //         .then(resp => resp.json())
-    //         .then(user => {
-    //             let u = new User(user.id, user.first_name, user.last_name)
-    //             u.renderUser()
-    //             let first_name = document.getElementById("first_name").value = ""
-    //             let last_name = document.getElementById("last_name").value = ""
-    //         })
-    // }
-
-    // const deleteUser = () => {
-
-    //         let userId = parseInt(event.target.dataset.id)
-    //         let allUsers = document.getElementById("all_users")
-
-    //         fetch(`${BASE_URL}/users/${userId}`, {
-    //                 method: 'DELETE'
-    //             })
-    //             .then(function(resp) {
-    //                 allUsers.innerText = ""
-    //                 User.fetchUsers()
-    //             })
-    //             // this.location.reload()
-    //     }
-    /////////////////////////////////
-    // const startGame = () => {
-    //     wp = null
-    //     bp = null
-    //     let gamesDiv = document.getElementById("recent-games")
-    //     gamesDiv.innerHTML = ""
-    //     Game.recentGames()
-    //     console.log("start button clicked!")
-    //     newGameDiv.innerText = "Please Select White Player"
-    //     let wpArray = document.querySelectorAll('#select-btn')
-    //     wpArray.forEach((w) => w.addEventListener('click', selectUser))
-    // }
 }

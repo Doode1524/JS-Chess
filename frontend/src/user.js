@@ -49,6 +49,7 @@ class User {
 
     static userSubmit = () => {
         event.preventDefault()
+
         let first_name = document.getElementById("first_name").value
         let last_name = document.getElementById("last_name").value
 
@@ -70,6 +71,7 @@ class User {
             .then(user => {
                 let u = new User(user.id, user.first_name, user.last_name)
                 u.renderUser()
+
                 let first_name = document.getElementById("first_name").value = ""
                 let last_name = document.getElementById("last_name").value = ""
             })
