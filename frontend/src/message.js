@@ -1,5 +1,5 @@
-class Message{
-    constructor(content){
-        this.content = content
-    }
+class Message {
+  constructor(content) {
+    this.content = content;
+  }
 }
