@@ -28,9 +28,9 @@ var User = /** @class */ (function () {
         newUserForm.innerHTML += "\n          <form>\n          First Name: <input type=\"text\" id= \"first_name\"><br>\n          Last Name: <input type=\"text\" id= \"last_name\"><br>\n          <input type=\"submit\" value=\"Create User\">\n          </form>\n          ";
         newUserForm.addEventListener("submit", _this.userSubmit);
     };
-    User.userSubmit = function () {
+    User.userSubmit = function (event) {
         event.preventDefault();
-        var first_name = document.getElementById("first_name").value;
+        var first_name = (document).getElementById("first_name").value;
         var last_name = document.getElementById("last_name").value;
         var user = {
             first_name: first_name,
@@ -52,7 +52,7 @@ var User = /** @class */ (function () {
             var last_name = (document.getElementById("last_name").value = "");
         });
     };
-    User.deleteUser = function () {
+    User.deleteUser = function (event) {
         var userId = parseInt(event.target.dataset.id);
         var allUsers = document.getElementById("all_users");
         fetch(BASE_URL + "/users/" + userId, {

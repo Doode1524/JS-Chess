@@ -1,9 +1,12 @@
 class User {
-    color;
+    
+    id: number
+    first_name: string
+    last_name: string
+
+    static all: User[] = [];
   
-    static all = [];
-  
-    constructor(id, first_name, last_name) {
+    constructor(id: number, first_name: string, last_name: string) {
       this.id = id;
       this.first_name = first_name;
       this.last_name = last_name;
@@ -13,7 +16,7 @@ class User {
   
     renderUser() {
       let usersDiv = document.getElementById("all_users");
-      usersDiv.innerHTML += `
+      (usersDiv as HTMLElement).innerHTML += `
           <ul>
           <li>${this.first_name} ${this.last_name} <button class="delete-btn" data-id=${this.id} onclick="User.deleteUser()">Delete</button> <button id="select-btn" data-id=${this.id}">Select</button> </li>
           </ul>
@@ -34,20 +37,20 @@ class User {
     static createUser = () => {
       let newUserForm = document.getElementById("create_user");
   
-      newUserForm.innerHTML += `
+      (newUserForm as HTMLElement).innerHTML += `
           <form>
           First Name: <input type="text" id= "first_name"><br>
           Last Name: <input type="text" id= "last_name"><br>
           <input type="submit" value="Create User">
           </form>
           `;
-      newUserForm.addEventListener("submit", this.userSubmit);
+      (newUserForm as HTMLElement).addEventListener("submit", this.userSubmit);
     };
   
-    static userSubmit = () => {
+    static userSubmit = (event: Event) => {
       event.preventDefault();
   
-      let first_name = document.getElementById("first_name").value;
+      let first_name = (document).getElementById("first_name").value;
       let last_name = document.getElementById("last_name").value;
   
       let user = {
@@ -74,14 +77,14 @@ class User {
         });
     };
   
-    static deleteUser = () => {
-      let userId = parseInt(event.target.dataset.id);
+    static deleteUser = (event: Event) => {
+      let userId = parseInt((event.target as EventTarget | any).dataset.id);
       let allUsers = document.getElementById("all_users");
   
       fetch(`${BASE_URL}/users/${userId}`, {
         method: "DELETE",
       }).then(function (resp) {
-        allUsers.innerText = "";
+        (allUsers as HTMLElement).innerText = "";
         User.fetchUsers();
       });
     };
