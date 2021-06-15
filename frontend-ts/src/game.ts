@@ -1,7 +1,15 @@
 class Game {
+    
+    id: number
+    name: string
+    winner: string
+    white_player: string
+    black_player: string
+
     static all = [];
   
-    constructor(id, name, winner, white_player, black_player) {
+    constructor(id: number, name: string, winner: string, white_player: string, black_player: string) {
+      
       this.id = id;
       this.name = name;
       this.winner = winner;
