@@ -66,7 +66,7 @@ const selectUser = (e) => {
         return resp.json();
       })
       .then(function (resp) {
-        console.log("hi", resp);
+        console.log("hyaa", resp);
         blackPlayer.resp = resp;
         blackPlayer.color = "Black";
         blackPlayer.first_name = resp.first_name;

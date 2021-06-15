@@ -21,6 +21,7 @@ var gameBoard = board.innerHTML;
 var blackPlayer = new User();
 var whitePlayer = new User();
 var currentGame;
+var h2t;
 var handleClick = function (e) {
     var selectedDiv = e.target;
     console.log(e.target, "was clicked!");
@@ -64,8 +65,8 @@ var selectUser = function (e) {
         })
             .then(function (resp) {
             console.log("hi", resp);
-            blackPlayer.resp = resp;
-            blackPlayer.color = "Black";
+            //   blackPlayer.resp = resp;
+            //   blackPlayer.color = "Black";
             blackPlayer.first_name = resp.first_name;
             blackPlayer.last_name = resp.last_name;
             blackPlayer.id = resp.id;
@@ -86,8 +87,8 @@ var selectUser = function (e) {
         })
             .then(function (resp) {
             console.log(resp);
-            whitePlayer.resp = resp;
-            whitePlayer.color = "White";
+            //   whitePlayer.resp = resp;
+            //   whitePlayer.color = "White";
             whitePlayer.first_name = resp.first_name;
             whitePlayer.last_name = resp.last_name;
             whitePlayer.id = resp.id;
@@ -100,7 +101,7 @@ var selectUser = function (e) {
             newGameDiv.addEventListener("submit", newGameSubmit);
         }
     };
-    var newGameSubmit = function () {
+    var newGameSubmit = function (event) {
         event.preventDefault();
         var name = document.getElementById("game_name").value;
         var game = {
@@ -123,7 +124,9 @@ var selectUser = function (e) {
         });
         newGameDiv.removeEventListener("submit", newGameSubmit);
         newGameDiv.innerText = "";
-        newGameDiv.innerHTML += "\n  \n          White player: " + wp.first_name + " " + wp.last_name + " <br/> <button id=\"white-check-btn\" data-id=" + whitePlayer.id + ">Check</button><button id=\"white-checkmate-btn\" data-id=" + whitePlayer.id + ">Checkmate</button><br/><br/> \n          Black player: " + bp.first_name + " " + bp.last_name + " <br/> <button id=\"black-check-btn\" data-id=" + blackPlayer.id + ">Check</button><button id=\"black-checkmate-btn\" data-id=" + blackPlayer.id + ">Checkmate</button><br/> \n          <h3>" + game.name + " has started!<h3>";
+        if (wp && bp) { // possibly null
+            newGameDiv.innerHTML += "\n        White player: " + wp.first_name + " " + wp.last_name + " <br/> <button id=\"white-check-btn\" data-id=" + whitePlayer.id + ">Check</button><button id=\"white-checkmate-btn\" data-id=" + whitePlayer.id + ">Checkmate</button><br/><br/> \n        Black player: " + bp.first_name + " " + bp.last_name + " <br/> <button id=\"black-check-btn\" data-id=" + blackPlayer.id + ">Check</button><button id=\"black-checkmate-btn\" data-id=" + blackPlayer.id + ">Checkmate</button><br/> \n        <h3>" + game.name + " has started!<h3>";
+        }
         resetBoard();
         var checkWhite = document.getElementById("white-check-btn");
         var checkmateWhite = document.getElementById("white-checkmate-btn");
@@ -134,7 +137,7 @@ var selectUser = function (e) {
         checkBlack.addEventListener("click", handleCheck);
         checkmateBlack.addEventListener("click", handleCheckmate);
     };
-    h2t = document.createElement("h2");
+    (h2t) = document.createElement("h2");
     var handleCheck = function (e) {
         e.preventDefault();
         console.log(e.target);
