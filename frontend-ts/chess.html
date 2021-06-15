@@ -1,0 +1,155 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>2SG Chess</title>
+
+    <style type="text/css">
+      .chessboard {
+        width: 640px;
+        height: 640px;
+        margin: 20px;
+        border: 25px solid #333;
+      }
+
+      .black {
+        float: left;
+        width: 80px;
+        height: 80px;
+        background-color: #999;
+        font-size: 50px;
+        text-align: center;
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      .white {
+        float: left;
+        width: 80px;
+        height: 80px;
+        background-color: #fff;
+        font-size: 50px;
+        text-align: center;
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      .users-style {
+        background-color: lightgrey;
+        width: 300px;
+        border: 25px solid #333;
+        padding: 30px;
+        margin: 20px;
+        font-family: "American Typewriter", sans-serif;
+      }
+    </style>
+
+    <script src="src/user.js"></script>
+    <script src="src/game.js"></script>
+    <script defer src="chess.js"></script>
+  </head>
+
+  <body>
+    <div style="position: absolute; left: 720px; top: 25px" class="users-style">
+      <h2 style="margin-top: 0px">Create User</h2>
+      <div id="create_user"></div>
+
+      <h2>Users:</h2>
+
+      <div id="all_users"></div>
+    </div>
+
+    <div
+      style="position: absolute; left: 1150px; top: 25px; width: 300px"
+      class="users-style"
+    >
+      <h2 style="margin-top: 0px">
+        New Game &nbsp<button id="start-btn">Start</button>
+      </h2>
+      <div id="new-game"></div>
+    </div>
+
+    <div
+      style="position: absolute; left: 1150px; top: 430px; width: 300px"
+      class="users-style"
+    >
+      <h2 style="margin-top: 0px">Recent Games</h2>
+      <div id="recent-games"></div>
+    </div>
+
+    <br />
+    <div class="chessboard" id="chessboard">
+      <!-- 8 -->
+      <div class="white" id="a8">&#9820;</div>
+      <div class="black" id="b8">&#9822;</div>
+      <div class="white" id="c8">&#9821;</div>
+      <div class="black" id="d8">&#9819;</div>
+      <div class="white" id="e8">&#9818;</div>
+      <div class="black" id="f8">&#9821;</div>
+      <div class="white" id="g8">&#9822;</div>
+      <div class="black" id="h8">&#9820;</div>
+      <!-- 7 -->
+      <div class="black" id="a7">&#9823;</div>
+      <div class="white" id="b7">&#9823;</div>
+      <div class="black" id="c7">&#9823;</div>
+      <div class="white" id="d7">&#9823;</div>
+      <div class="black" id="e7">&#9823;</div>
+      <div class="white" id="f7">&#9823;</div>
+      <div class="black" id="g7">&#9823;</div>
+      <div class="white" id="h7">&#9823;</div>
+      <!-- 6 -->
+      <div class="white" id="a6"></div>
+      <div class="black" id="b6"></div>
+      <div class="white" id="c6"></div>
+      <div class="black" id="d6"></div>
+      <div class="white" id="e6"></div>
+      <div class="black" id="f6"></div>
+      <div class="white" id="g6"></div>
+      <div class="black" id="h6"></div>
+      <!-- 5 -->
+      <div class="black" id="a5"></div>
+      <div class="white" id="b5"></div>
+      <div class="black" id="c5"></div>
+      <div class="white" id="d5"></div>
+      <div class="black" id="e5"></div>
+      <div class="white" id="f5"></div>
+      <div class="black" id="g5"></div>
+      <div class="white" id="h5"></div>
+      <!-- 4 -->
+      <div class="white" id="a4"></div>
+      <div class="black" id="b4"></div>
+      <div class="white" id="c4"></div>
+      <div class="black" id="d4"></div>
+      <div class="white" id="e4"></div>
+      <div class="black" id="f4"></div>
+      <div class="white" id="g4"></div>
+      <div class="black" id="h4"></div>
+      <!-- 3 -->
+      <div class="black" id="a3"></div>
+      <div class="white" id="b3"></div>
+      <div class="black" id="c3"></div>
+      <div class="white" id="d3"></div>
+      <div class="black" id="e3"></div>
+      <div class="white" id="f3"></div>
+      <div class="black" id="g3"></div>
+      <div class="white" id="h3"></div>
+      <!-- 2 -->
+      <div class="white" id="a2">&#9817;</div>
+      <div class="black" id="b2">&#9817;</div>
+      <div class="white" id="c2">&#9817;</div>
+      <div class="black" id="d2">&#9817;</div>
+      <div class="white" id="e2">&#9817;</div>
+      <div class="black" id="f2">&#9817;</div>
+      <div class="white" id="g2">&#9817;</div>
+      <div class="black" id="h2">&#9817;</div>
+      <!-- 1 -->
+      <div class="black" id="a1">&#9814;</div>
+      <div class="white" id="b1">&#9816;</div>
+      <div class="black" id="c1">&#9815;</div>
+      <div class="white" id="d1">&#9813;</div>
+      <div class="black" id="e1">&#9812;</div>
+      <div class="white" id="f1">&#9815;</div>
+      <div class="black" id="g1">&#9816;</div>
+      <div class="white" id="h1">&#9814;</div>
+    </div>
+  </body>
+</html>
