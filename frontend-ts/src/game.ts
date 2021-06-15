@@ -1,12 +1,12 @@
 class Game {
-    
+
     id: number
     name: string
     winner: string
     white_player: string
     black_player: string
 
-    static all = [];
+    static all: Game[] = [];
   
     constructor(id: number, name: string, winner: string, white_player: string, black_player: string) {
       
@@ -22,7 +22,7 @@ class Game {
     renderGame() {
       let gamesDiv = document.getElementById("recent-games");
   
-      gamesDiv.innerHTML += `
+      (gamesDiv as HTMLElement).innerHTML += `
               <li><strong>${this.name}</strong> Winner: <strong>${this.winner}</strong> </li><br/>
               `;
     }
@@ -32,7 +32,7 @@ class Game {
         .then((resp) => resp.json())
         .then((games) => {
           for (const game of games) {
-            let g = new Game(game.id, game.name, game.winner);
+            let g = new Game(game.id, game.name, game.winner, game.white_player, game.black_player); /// add players breaks?
             g.renderGame();
           }
         });
@@ -44,13 +44,13 @@ class Game {
   
       let gamesDiv = document.getElementById("recent-games");
   
-      gamesDiv.innerHTML = "";
+      (gamesDiv as HTMLElement).innerHTML = "";
   
       Game.recentGames();
   
       console.log("start button clicked!");
   
-      newGameDiv.innerText = "Please Select White Player";
+      (newGameDiv as HTMLElement).innerText = "Please Select White Player";
   
       let wpArray = document.querySelectorAll("#select-btn");
       wpArray.forEach((w) => w.addEventListener("click", selectUser));
