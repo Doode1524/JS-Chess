@@ -1,4 +1,5 @@
 "use strict";
+// import { User } from './src/user'
 document.addEventListener("DOMContentLoaded", function () {
     User.createUser();
     User.fetchUsers();

@@ -1,50 +1,51 @@
+// import { User } from './src/user'
 document.addEventListener("DOMContentLoaded", () => {
     User.createUser();
     User.fetchUsers();
     Game.recentGames();
-    board.addEventListener("click", handleClick);
-    start.addEventListener("click", Game.startGame);
-  });
-  
-  const BASE_URL = "http://127.0.0.1:3000";
-  let currentPiece;
-  let copy;
-  let wp;
+    (board as HTMLElement).addEventListener("click", handleClick);
+    (start as HTMLElement).addEventListener("click", Game.startGame);
+});
+
+const BASE_URL = "http://127.0.0.1:3000";
+let currentPiece: HTMLElement | null;
+let copy: string;
+let wp;
   let bp;
   let player = 0; //zero is white 1 is black
   let phase = 0; // zero is selected, 1 is moving
   let start = document.getElementById("start-btn");
   let newGameDiv = document.getElementById("new-game");
   let board = document.getElementById("chessboard");
-  const gameBoard = board.innerHTML;
+  const gameBoard = (board as HTMLElement).innerHTML;
   const blackPlayer = new User();
   const whitePlayer = new User();
-  let currentGame;
+  let currentGame: Game;
   
-  const handleClick = (e) => {
+  const handleClick = (e: Event) => {
     let selectedDiv = e.target;
     console.log(e.target, "was clicked!");
   
     if (phase == 0 || selectedDiv == currentPiece) {
-      toggleSelected(selectedDiv);
+      toggleSelected((selectedDiv as HTMLElement));
       console.log(phase);
     } else {
-      selectedDiv.innerText = copy;
-      selectedDiv.style.color = "black";
-      currentPiece.innerText = "";
+      (selectedDiv as HTMLElement).innerText = copy;
+      (selectedDiv as HTMLElement).style.color = "black";
+      (currentPiece as HTMLElement).innerText = "";
       phase = 0;
       console.log(phase);
     }
   };
   
-  const toggleSelected = (selectedDiv) => {
+  const toggleSelected = (selectedDiv: HTMLElement) => {
     if (selectedDiv == currentPiece || selectedDiv.innerText == "") {
       selectedDiv.style.color = "black";
       currentPiece = null;
       phase = 0;
     } else {
       currentPiece = selectedDiv;
-      copy = currentPiece.innerText;
+      copy = (currentPiece as HTMLElement).innerText;
       selectedDiv.style.color = "blue";
       phase = 1;
     }
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const resetBoard = () => {
     // value of null at 228??
-    board.innerHTML = gameBoard;
+    (board as HTMLElement).innerHTML = gameBoard;
   };
   
   const selectUser = (e) => {
@@ -96,12 +97,12 @@ document.addEventListener("DOMContentLoaded", () => {
           whitePlayer.last_name = resp.last_name;
           whitePlayer.id = resp.id;
         });
-      newGameDiv.innerText = "Please Select Black Player";
+      (newGameDiv as HTMLElement).innerText = "Please Select Black Player";
     }
   
     const vsText = () => {
       if (wp && bp) {
-        newGameDiv.innerHTML = `
+        (newGameDiv as HTMLElement).innerHTML = `
   
                   White player: ${wp.first_name} ${wp.last_name} <br/> 
                   Black player: ${bp.first_name} ${bp.last_name} <br/>
@@ -111,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   <input type="submit" value="Create New Game">
                   </form>`;
   
-        newGameDiv.addEventListener("submit", newGameSubmit);
+        (newGameDiv as HTMLElement).addEventListener("submit", newGameSubmit);
       }
     };
   
@@ -147,10 +148,10 @@ document.addEventListener("DOMContentLoaded", () => {
           currentGame = g;
         });
   
-      newGameDiv.removeEventListener("submit", newGameSubmit);
+      (newGameDiv as HTMLElement).removeEventListener("submit", newGameSubmit);
   
-      newGameDiv.innerText = "";
-      newGameDiv.innerHTML += `
+      (newGameDiv as HTMLElement).innerText = "";
+      (newGameDiv as HTMLElement).innerHTML += `
   
           White player: ${wp.first_name} ${wp.last_name} <br/> <button id="white-check-btn" data-id=${whitePlayer.id}>Check</button><button id="white-checkmate-btn" data-id=${whitePlayer.id}>Checkmate</button><br/><br/> 
           Black player: ${bp.first_name} ${bp.last_name} <br/> <button id="black-check-btn" data-id=${blackPlayer.id}>Check</button><button id="black-checkmate-btn" data-id=${blackPlayer.id}>Checkmate</button><br/> 
@@ -163,10 +164,10 @@ document.addEventListener("DOMContentLoaded", () => {
       let checkBlack = document.getElementById("black-check-btn");
       let checkmateBlack = document.getElementById("black-checkmate-btn");
   
-      checkWhite.addEventListener("click", handleCheck);
-      checkmateWhite.addEventListener("click", handleCheckmate);
-      checkBlack.addEventListener("click", handleCheck);
-      checkmateBlack.addEventListener("click", handleCheckmate);
+      (checkWhite as HTMLElement).addEventListener("click", handleCheck);
+      (checkmateWhite as HTMLElement).addEventListener("click", handleCheckmate);
+      (checkBlack as HTMLElement).addEventListener("click", handleCheck);
+      (checkmateBlack as HTMLElement).addEventListener("click", handleCheckmate);
     };
   
     h2t = document.createElement("h2");
@@ -189,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(function (resp) {
           console.log(resp);
           h2t.innerText = `${resp.first_name} ${resp.last_name} is in check!`;
-          newGameDiv.append(h2t);
+          (newGameDiv as HTMLElement).append(h2t);
         });
     };
   
@@ -212,14 +213,14 @@ document.addEventListener("DOMContentLoaded", () => {
   
           if (id == whitePlayer.id) {
             h2t.innerText = `${blackPlayer.first_name} ${blackPlayer.last_name} is the WINNER!`;
-            newGameDiv.append(h2t);
+            (newGameDiv as HTMLElement).append(h2t);
             currentGame.winner =
               currentGame.black_player.first_name +
               " " +
               currentGame.black_player.last_name;
           } else {
             h2t.innerText = `${whitePlayer.first_name} ${whitePlayer.last_name} is the WINNER!`;
-            newGameDiv.append(h2t);
+            (newGameDiv as HTMLElement).append(h2t);
             currentGame.winner =
               currentGame.white_player.first_name +
               " " +
