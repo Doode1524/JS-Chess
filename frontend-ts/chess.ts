@@ -57,11 +57,11 @@ const resetBoard = () => {
   (board as HTMLElement).innerHTML = gameBoard;
 };
 
-const selectUser = (e) => {
+const selectUser = (e: Event) => {
   e.preventDefault();
   console.log(e);
   if (wp) {
-    let id = e.target.dataset.id;
+    let id = (e.target as EventTarget | any).dataset.id;
 
     fetch(BASE_URL + /users/ + id, {})
       .then(function (resp) {
@@ -84,7 +84,7 @@ const selectUser = (e) => {
   } else {
     wp = whitePlayer;
 
-    let id = e.target.dataset.id;
+    let id = (e.target as EventTarget | any).dataset.id;
 
     fetch(BASE_URL + /users/ + id, {})
       .then(function (resp) {
