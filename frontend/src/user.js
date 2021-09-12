@@ -75,7 +75,6 @@ class User {
   };
 
   static deleteUser = () => {
-    debugger
     let userId = parseInt(event.target.dataset.id);
     let allUsers = document.getElementById("all_users");
 
